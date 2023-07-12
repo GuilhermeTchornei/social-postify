@@ -23,6 +23,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       provide: UserRepositorySignature,
       useClass: UserRepository,
     },
+  ],
+  exports: [
+    JwtModule,
+    {
+      provide: UserRepositorySignature,
+      useClass: UserRepository,
+    },
   ]
 })
 export class AuthModule {}

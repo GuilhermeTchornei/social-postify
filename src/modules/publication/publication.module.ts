@@ -1,9 +1,25 @@
 import { Module } from '@nestjs/common';
-import { PublicationService } from './publication.service';
-import { PublicationController } from './publication.controller';
+import { CreatePublicationService } from './useCases/create/createPublication.service';
+import PublicationRepositorySignature from './repository/signature.repository';
+import PublicationRepository from './repository/implementation.repository';
+import { FindAllPublicationController } from './useCases/findAll/findAllPublication.controller';
+import { CreatePublicationController } from './useCases/create/createPublication.controller';
+import { FindAllPublicationService } from './useCases/findAll/findAllPublication.service';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  controllers: [PublicationController],
-  providers: [PublicationService]
+  imports: [AuthModule],
+  controllers: [
+    CreatePublicationController,
+    FindAllPublicationController
+  ],
+  providers: [
+    CreatePublicationService,
+    FindAllPublicationService,
+    {
+      provide: PublicationRepositorySignature,
+      useClass: PublicationRepository,
+    },
+  ]
 })
 export class PublicationModule {}
